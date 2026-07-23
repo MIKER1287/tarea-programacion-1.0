@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-lg p-4" style="max-width: 450px; width: 100%; border-radius: 15px; background-color: #ffffff; color: #000000 !important;">
+        
+        <div class="text-center mb-3">
+            <h3 class="fw-bold" style="color: #000000 !important;">👟 TIENDA DE TENIS 👟</h3>
+            <p class="mb-1" style="color: #333333 !important;">¡Gracias por tu compra!</p>
+            <hr style="border-top: 2px dashed #000; opacity: 1;">
+        </div>
+
+        <div class="mb-3" style="color: #000000 !important;">
+            <p class="mb-1" style="color: #000000 !important;"><strong style="color: #000000 !important;">N° de Ticket:</strong> #{{ ticket.id }}</p>
+            <p class="mb-1" style="color: #000000 !important;"><strong style="color: #000000 !important;">Cliente:</strong> {{ ticket.cliente }}</p>
+            <p class="mb-1" style="color: #000000 !important;"><strong style="color: #000000 !important;">📅 Fecha y Hora:</strong> {{ ticket.fecha_hora }}</p>
+        </div>
+
+        <hr style="border-top: 1px dashed #555; opacity: 1;">
+
+        <h5 style="color: #000000 !important;"><strong style="color: #000000 !important;">Detalle del Pedido:</strong></h5>
+        <ul class="list-group list-group-flush mb-3">
+            {% for prod in ticket.productos %}
+                <li class="list-group-item" style="background: transparent; color: #000000 !important; font-weight: 500;">
+                    • {{ prod }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% if ticket.regalo %}
+        <div class="alert text-center p-2 mb-3" style="background-color: #d1e7dd; border: 1px solid #badbcc; color: #0f5132 !important;">
+            🎁 <strong style="color: #0f5132 !important;">¡BONIFICACIÓN!:</strong><br>{{ ticket.regalo }}
+        </div>
+        {% endif %}
+
+        <hr style="border-top: 2px dashed #000; opacity: 1;">
+
+        <div class="d-flex justify-content-between align-items-center mb-4" style="color: #000000 !important;">
+            <h4 style="color: #000000 !important;"><strong style="color: #000000 !important;">TOTAL PAGADO:</strong></h4>
+            <h3 style="color: #198754 !important;"><strong style="color: #198754 !important;">${{ "%.2f"|format(ticket.total) }}</strong></h3>
+        </div>
+
+        <div class="text-center">
+            <a href="{{ url_for('tienda') }}" class="btn btn-success w-100 fw-bold">Seguir Comprando</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

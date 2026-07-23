@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg" style="border: none; border-radius: 12px; overflow: hidden;">
+        <div class="card-header bg-dark text-white p-3">
+            <h2 class="mb-0 fs-3">📊 Reporte Mensual de Ventas Realizadas</h2>
+            <small class="text-muted">Desglose completo de compras, clientes y fechas por mes</small>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="py-3 ps-3">Mes</th>
+                            <th class="py-3"># Ticket</th>
+                            <th class="py-3">Fecha y Hora</th>
+                            <th class="py-3">Cliente</th>
+                            <th class="py-3">Productos y Tallas Compradas</th>
+                            <th class="py-3">Regalo</th>
+                            <th class="py-3 pe-3 text-end">Total Pagado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in compras %}
+                        <tr>
+                            <td class="ps-3">
+                                <span class="badge bg-primary fs-6">{{ c['mes'] }}</span>
+                            </td>
+                            <td><strong>#{{ c['ticket_id'] }}</strong></td>
+                            <td class="text-nowrap">{{ c['fecha_hora'] }}</td>
+                            <td>
+                                <strong class="text-dark">👤 {{ c['cliente'] }}</strong>
+                            </td>
+                            <td>{{ c['productos'] }}</td>
+                            <td>
+                                {% if c['regalo'] %}
+                                    <span class="badge bg-success">🎁 {{ c['regalo'] }}</span>
+                                {% else %}
+                                    <span class="text-muted">Sin regalo</span>
+                                {% endif %}
+                            </td>
+                            <td class="pe-3 text-end">
+                                <strong class="text-success fs-5">${{ "%.2f"|format(c['total']) }}</strong>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4 text-muted fs-5">
+                                Aún no se han realizado compras registradas este mes.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

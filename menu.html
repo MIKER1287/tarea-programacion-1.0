@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>👟 BIENVENIDO A HOME SHOES 👟</h1>
+<div class="flex-grid">
+    <div class="card">
+        <h3>1. Registrar Nuevo Cliente</h3>
+        <form action="/registrar" method="POST">
+            <input type="text" name="nombre" placeholder="Nombre completo" required>
+            <input type="text" name="fecha_nacimiento" placeholder="Fecha Nacimiento (DD/MM/AAAA)" required>
+            <input type="password" name="contrasena" placeholder="Contraseña" required>
+            <input type="text" name="celular" placeholder="Número Celular" required>
+            <input type="email" name="correo" placeholder="Correo Electrónico" required>
+            <button type="submit">Registrarme</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>2. Ya soy Cliente</h3>
+        <form action="/login" method="POST">
+            <input type="email" name="correo" placeholder="Correo Electrónico" required>
+            <input type="password" name="contrasena" placeholder="Contraseña" required>
+            <button type="submit" style="background-color: #16a34a;">Iniciar Sesión</button>
+        </form>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a href="{{ url_for('admin_login') }}" class="text-muted" style="text-decoration: none; font-size: 0.9rem;">
+        🔐 Acceso exclusivo Administrador
+    </a>
+</div>
+{% endblock %}

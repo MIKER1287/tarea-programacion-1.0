@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Shoes - Tienda de Tenis</title>
+    
+    <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='logo.jpg') }}">
+
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #1e1e24; color: #fff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        
+        /* CONTENEDOR EN ALINEACIÓN HORIZONTAL (UNO AL LADO DEL OTRO) */
+        .header-container { 
+            display: flex; 
+            flex-direction: row; /* Los alinea en fila */
+            align-items: center; /* Los centra verticalmente entre sí */
+            justify-content: center; /* Los centra en medio de la pantalla */
+            gap: 30px; /* Espacio de separación entre el logo y el letrero */
+            margin-bottom: 25px; 
+            width: 100%;
+            max-width: 900px;
+        }
+        
+        .header-logo img { width: 120px; height: auto; border-radius: 50%; border: 3px solid #03550e; background-color: white; padding: 5px; }
+        
+        /* Diseño para el letrero de la promoción */
+        .header-promo img { width: 320px; height: auto; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); border: 2px solid #16a34a; }
+        
+        .container { max-width: 900px; width: 100%; background: #2a2a35; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        h1, h2, h3 { color: #ffffff; text-align: center; margin-top: 5px; }
+        .flex-grid { display: flex; gap: 20px; justify-content: space-between; }
+        .card { flex: 1; background: #333344; padding: 20px; border-radius: 8px; border: 1px solid #444; }
+        input, select { width: 90%; padding: 10px; margin: 8px 0; border-radius: 5px; border: 1px solid #555; background: #222; color: white; }
+        button, .btn { display: inline-block; width: 95%; background: #3A9465; color: white; padding: 11px; border: none; border-radius: 5px; cursor: pointer; text-align: center; text-decoration: none; font-weight: bold; margin-top: 10px;}
+        button:hover, .btn:hover { background: #017501; }
+        .btn-alt { background: #dc2626; } .btn-alt:hover { background: #b91c1c; }
+        .btn-success { background: #5197f1; } .btn-success:hover { background: #019e0e; }
+        .flash { padding: 12px; margin-bottom: 15px; border-radius: 6px; text-align: center; font-weight: bold; }
+        .success { background: #3A9465; } .error { background: #b91c1c; } .bono { background: #ca8a04; color: black; }
+        .grid-productos { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+        .item-tenis { background: #333344; border: 1px solid #555; padding: 15px; border-radius: 6px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <div class="header-logo">
+            <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Home Shoes Logo">
+        </div>
+        <div class="header-promo">
+            <img src="{{ url_for('static', filename='promocion.jpg') }}" alt="Promoción Selección Mexicana">
+        </div>
+    </div>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-white">⚙️ Panel de Control Administrador</h2>
+        <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-danger">Cerrar Sesión Admin</a>
+    </div>
+
+    <!-- BUSCADOR Y FILTROS -->
+    <div class="card shadow p-4 mb-4" style="background-color: #2c3035; color: white; border-radius: 10px;">
+        <form method="GET" action="{{ url_for('panel_admin') }}" class="row g-3">
+            <!-- Buscar por Nombre -->
+            <div class="col-md-5">
+                <label class="form-label fw-bold">👤 Buscar por Nombre de Cliente:</label>
+                <input type="text" name="buscar_cliente" class="form-control bg-dark text-white border-secondary" placeholder="Ej. Mike" value="{{ buscar_cliente }}">
+            </div>
+
+            <!-- Filtrar por Mes -->
+            <div class="col-md-4">
+                <label class="form-label fw-bold">📅 Filtrar por Mes:</label>
+                <select name="buscar_mes" class="form-select bg-dark text-white border-secondary">
+                    <option value="">-- Todos los Meses --</option>
+                    {% for m in meses_disponibles %}
+                        <option value="{{ m }}" {% if m == buscar_mes %}selected{% endif %}>{{ m }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Botones -->
+            <div class="col-md-3 d-flex align-items-end gap-2">
+                <button type="submit" class="btn btn-primary w-100 fw-bold">🔍 Buscar</button>
+                <a href="{{ url_for('panel_admin') }}" class="btn btn-secondary fw-bold">Limpiar</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- DATOS PERSONALES DEL CLIENTE BUSCADO -->
+    {% if info_cliente %}
+    <div class="card shadow mb-4 border-info" style="background-color: #1e2227; color: white;">
+        <div class="card-header bg-info text-dark fw-bold">
+            👤 Datos Personales Encontrados ({{ info_cliente|length }} cliente/s)
+        </div>
+        <div class="card-body">
+            {% for cli in info_cliente %}
+            <div class="row mb-2 border-bottom border-secondary pb-2">
+                <div class="col-md-3"><strong>Nombre:</strong> {{ cli['nombre'] }}</div>
+                <div class="col-md-3"><strong>Correo:</strong> {{ cli['correo'] }}</div>
+                <div class="col-md-3"><strong>Celular:</strong> {{ cli['celular'] }}</div>
+                <div class="col-md-3"><strong>F. Nacimiento:</strong> {{ cli['fecha_nacimiento'] }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- TABLA DE MOVIMIENTOS / COMPRAS -->
+    <div class="card shadow" style="border-radius: 10px; overflow: hidden;">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">🛒 Movimientos y Ventas Registradas</h4>
+            <span class="badge bg-success fs-5">Total en filtro: ${{ "%.2f"|format(total_acumulado) }}</span>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Mes</th>
+                            <th># Ticket</th>
+                            <th>Fecha y Hora</th>
+                            <th>Cliente</th>
+                            <th>Contacto</th>
+                            <th>Productos / Tallas</th>
+                            <th>Regalo</th>
+                            <th class="text-end pe-3">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in compras %}
+                        <tr>
+                            <td><span class="badge bg-primary">{{ c['mes'] }}</span></td>
+                            <td><strong>#{{ c['ticket_id'] }}</strong></td>
+                            <td class="text-nowrap">{{ c['fecha_hora'] }}</td>
+                            <td><strong class="text-warning">👤 {{ c['cliente'] }}</strong></td>
+                            <td><small>{{ c['correo'] }}<br>{{ c['celular'] }}</small></td>
+                            <td>{{ c['productos'] }}</td>
+                            <td>
+                                {% if c['regalo'] %}
+                                    <span class="badge bg-success">🎁 {{ c['regalo'] }}</span>
+                                {% else %}
+                                    <span class="text-muted">Sin regalo</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-end pe-3">
+                                <strong class="text-success fs-5">${{ "%.2f"|format(c['total']) }}</strong>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="8" class="text-center py-4 text-muted fs-5">
+                                No se encontraron movimientos con los criterios seleccionados.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

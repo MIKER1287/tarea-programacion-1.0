@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Hola, {{ session['cliente_nombre'] }} 👋</h2>
+    <a href="/salir" class="btn btn-alt" style="width: auto; padding: 5px 15px;">Cerrar Sesión</a>
+</div>
+
+<div class="flex-grid" style="margin-top: 20px;">
+    <div class="card" style="flex: 2;">
+        <h3>Catálogo de Tenis</h3>
+        <div class="grid-productos">
+            {% for id, info in catalogo.items() %}
+                <div class="item-tenis" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 10px;">
+                    <h4>{{ info.nombre }}</h4>
+                    
+                    {% if info.nombre == "Nuevo Balance 'Henequén & Azul'" %}
+                        <img src="{{ url_for('static', filename='tenis1.jpg') }}" alt="Tenis 1" style="width: 100%; max-width: 130px; height: 100px; object-fit: cover; border-radius: 6px; margin: 5px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                    {% elif info.nombre == 'Ardida "Samba del Coraje"' %}
+                        <img src="{{ url_for('static', filename='tenis2.jpg') }}" alt="Tenis 2" style="width: 100%; max-width: 130px; height: 100px; object-fit: cover; border-radius: 6px; margin: 5px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                    {% elif info.nombre == 'Supérame Boost 350 "Alucín Premium"' %}
+                        <img src="{{ url_for('static', filename='tenis3.jpg') }}" alt="Tenis 3" style="width: 100%; max-width: 130px; height: 100px; object-fit: cover; border-radius: 6px; margin: 5px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                    {% elif info.nombre == 'Fali "Disruptor de Expectativas"' %}
+                        <img src="{{ url_for('static', filename='tenis4.jpg') }}" alt="Tenis 4" style="width: 100%; max-width: 130px; height: 100px; object-fit: cover; border-radius: 6px; margin: 5px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                    {% elif info.nombre == 'Armadura Dura "Tanque Urbano"' %}
+                        <img src="{{ url_for('static', filename='tenis5.jpg') }}" alt="Tenis 5" style="width: 100%; max-width: 130px; height: 100px; object-fit: cover; border-radius: 6px; margin: 5px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                    {% elif info.nombre == 'Skinners "Suela Invisible"' %}
+                        <img src="{{ url_for('static', filename='tenis6.jpg') }}" alt="Tenis 6" style="width: 100%; max-width: 130px; height: 100px; object-fit: cover; border-radius: 6px; margin: 5px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                    {% elif info.nombre == 'Jaguar "Fiera Prehispánica"' %}
+                        <img src="{{ url_for('static', filename='tenis7.jpg') }}" alt="Tenis 7" style="width: 100%; max-width: 130px; height: 100px; object-fit: cover; border-radius: 6px; margin: 5px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                    {% elif info.nombre == 'Fuchi "Huele Raro"' %}
+                        <img src="{{ url_for('static', filename='tenis8.jpg') }}" alt="Tenis 8" style="width: 100%; max-width: 130px; height: 100px; object-fit: cover; border-radius: 6px; margin: 5px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                    {% elif info.nombre == 'Karlos "Rey de la K"' %}
+                        <img src="{{ url_for('static', filename='tenis9.jpg') }}" alt="Tenis 9" style="width: 100%; max-width: 130px; height: 100px; object-fit: cover; border-radius: 6px; margin: 5px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                    {% elif info.nombre == 'Carlitos "El Patrón" Active"' %}
+                        <img src="{{ url_for('static', filename='tenis10.jpg') }}" alt="Tenis 10" style="width: 100%; max-width: 130px; height: 100px; object-fit: cover; border-radius: 6px; margin: 5px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                    {% endif %}
+                    
+                    <p style="color: #a7f3d0; font-weight: bold; margin: 5px 0;">${{ info.precio }}</p>
+                    
+                    <form action="/agregar/{{ id }}" method="POST" style="width: 100%; text-align: center;">
+                        <label style="font-size: 11px; color: #bbb; display: block; margin-bottom: 2px;">Talla:</label>
+                        <select name="talla" style="width: 85%; padding: 4px; margin: 0 auto 5px auto; display: block; font-size: 12px; background: #222; color: white; border: 1px solid #555; border-radius: 4px;" required>
+                            <option value="23">23</option>
+                            <option value="23.5">23.5</option>
+                            <option value="24">24</option>
+                            <option value="24.5">24.5</option>
+                            <option value="25">25</option>
+                            <option value="25.5">25.5</option>
+                            <option value="26">26</option>
+                            <option value="26.5">26.5</option>
+                            <option value="27">27</option>
+                            <option value="27.5">27.5</option>
+                            <option value="28">28</option>
+                            <option value="28.5">28.5</option>
+                            <option value="29">29</option>
+                        </select>
+                        <button type="submit" class="btn" style="padding: 5px; font-size: 13px; width: 85%; margin-top: 5px;">+ Agregar</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card" style="flex: 1;">
+        <h3>Tu Carrito</h3>
+        {% if carrito %}
+            <ul>
+                {% for item in carrito %}
+                    <li>{{ catalogo[item.id].nombre }} <strong>(Talla: {{ item.talla }})</strong> - ${{ catalogo[item.id].precio }}</li>
+                {% endfor %}
+            </ul>
+            <hr style="border-color: #555;">
+            <p style="font-size: 18px;"><strong>Total:</strong> ${{ total_prov }}</p>
+            
+            {% if total_prov >= 1500 %}
+                <div style="background: #15803d; color: white; padding: 10px; border-radius: 6px; text-align: center; font-weight: bold; margin: 15px 0; border: 1px dashed #fff;">
+                    🎉 ¡Felicidades! Te puedes llevar una camiseta gratis de la Selección Mexicana al finalizar la compra.
+                </div>
+            {% else %}
+                {% set faltante = 1500 - total_prov %}
+                <div style="background: #3f2f11; color: #fde047; padding: 10px; border-radius: 6px; text-align: center; font-size: 13px; margin: 15px 0; border: 1px solid #ca8a04; line-height: 1.4;">
+                    💡 ¡Estás a solo <strong>${{ faltante }}</strong> de llevarte una <strong>camiseta gratis</strong> de la Selección Mexicana!
+                </div>
+            {% endif %}
+            
+            <a href="/pagar" class="btn btn-success">💳 Finalizar Compra y Pagar</a>
+            <a href="/limpiar" class="btn btn-alt" style="margin-top: 5px; font-size: 12px; padding: 5px;">Vaciar Carrito</a>
+        {% else %}
+            <p style="text-align: center; color: #888;">El carrito está vacío.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
